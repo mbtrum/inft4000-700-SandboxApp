@@ -12,6 +12,7 @@ public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
 
+    // dependency injection.
     public MovieServiceImpl(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
     }
@@ -23,11 +24,11 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Optional<Movie> getMovieById(Long id) {
-        return Optional.empty();
+        return movieRepository.findById(id);
     }
 
-    @Override
-    public Movie createMovie(Movie movie) {
-        return null;
-    }
+//    @Override
+//    public Movie createMovie(Movie movie) {
+//        return null;
+//    }
 }
