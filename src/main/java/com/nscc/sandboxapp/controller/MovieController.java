@@ -1,7 +1,9 @@
 package com.nscc.sandboxapp.controller;
 
+import com.nscc.sandboxapp.dto.MovieCreateDTO;
 import com.nscc.sandboxapp.entitiy.Movie;
 import com.nscc.sandboxapp.service.MovieService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -33,9 +35,17 @@ public class MovieController {
     }
 
     // POST movie - /movies
+    // @Valid: automatically validate input
+    // @RequestBody: bind the POST request body to movieDTO
     @PostMapping("/")
-    public String AddMovie() {
-        return "Success, movie added.";
+    @ResponseStatus(HttpStatus.CREATED) // HTTP Status Code: 201
+    public Movie CreateMovie(@Valid @RequestBody MovieCreateDTO movieDTO) {
+        // Use a DTO to receive input in API and plug into a movie object
+        Movie movie = new Movie();
+        movie.setTitle(movieDTO.getTitle());
+        movie.setSynopsis(movieDTO.getSynopsis());
+
+        return movieService.createMovie(movie);
     }
 
 //    // DELETE movie - /movies

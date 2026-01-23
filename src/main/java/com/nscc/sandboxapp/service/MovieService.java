@@ -10,5 +10,5 @@ public interface MovieService {
 
     Optional<Movie> getMovieById(Long id); // optional = nullable
 
-    //Movie createMovie(Movie movie);
+    Movie createMovie(Movie movie);
 }
