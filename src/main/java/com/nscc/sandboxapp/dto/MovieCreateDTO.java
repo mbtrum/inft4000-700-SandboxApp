@@ -10,11 +10,10 @@ import lombok.Data;
 // DTOs Data Transfer Objects are used to transfer data between layers in app, helping to prevent errors or malicious attacks.
 @Data
 public class MovieCreateDTO {
-    @NotNull
+
     @NotBlank(message = "Title is required.")
     private String title;
 
-    @NotNull
     @NotBlank(message = "Synopsis is required.")
     @Size(max=750)
     private String synopsis;
