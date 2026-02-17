@@ -3,6 +3,9 @@ package com.nscc.sandboxapp.entitiy;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data // Lombok adds getter and setter methods to code
 @Entity
 public class Movie {
@@ -16,4 +19,15 @@ public class Movie {
 
     @Column(nullable = false, length = 750) // database validation
     private String synopsis;
+
+    @Column(nullable = false)
+    private int releaseYear;
+
+    @Column(nullable = false)
+    private int duration;
+
+    // one-to-many relationship to Cast Member
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CastMember> castMembers = new ArrayList<>();
+
 }
