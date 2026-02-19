@@ -1,6 +1,8 @@
 package com.nscc.sandboxapp.controller;
 
+import com.nscc.sandboxapp.dto.CastMemberCreateDTO;
 import com.nscc.sandboxapp.dto.MovieCreateDTO;
+import com.nscc.sandboxapp.entitiy.CastMember;
 import com.nscc.sandboxapp.entitiy.Movie;
 import com.nscc.sandboxapp.service.MovieService;
 import jakarta.validation.Valid;
@@ -14,6 +16,10 @@ import java.util.List;
 @RequestMapping("/movies")
 public class MovieController {
     private final MovieService movieService;
+
+    /// ///////////////////////////////////////////////////
+    // TO-DO: return a movie DTO instead of a movie Entity
+    // ////////////////////////////////////////////////////
 
     // constructor
     public MovieController(MovieService movieService) {
@@ -38,8 +44,7 @@ public class MovieController {
     // @Valid: automatically validate input
     // @RequestBody: bind the POST request body to movieDTO
     @PostMapping("/")
-    @ResponseStatus(HttpStatus.CREATED) // HTTP Status Code: 201
-    public Movie CreateMovie(@Valid @RequestBody MovieCreateDTO movieDTO) {
+    public Movie addMovie(@Valid @RequestBody MovieCreateDTO movieDTO) {
         // Use a DTO to receive input in API and plug into a movie object
         Movie movie = new Movie();
         movie.setTitle(movieDTO.getTitle());
@@ -48,17 +53,17 @@ public class MovieController {
         return movieService.createMovie(movie);
     }
 
-//    // DELETE movie - /movies
-//    @DeleteMapping("/{id}")
-//    public String DeleteMovieById(@PathVariable int id) {
-//        return "Success, movie deleted for id: " + id;
-//    }
-//
-//    // PUT movie - /movies
-//    @PutMapping("/")
-//    public String UpdateMovie() {
-//        return "Success, movie updated.";
-//    }
+    // POST ../movies/addcastmember
+    @PostMapping("/addcastmember")
+    public void addCastMember(@Valid @RequestBody CastMemberCreateDTO castMemberDTO) {
+        // Use a DTO to receive input in API and plug into a cast member object
+        CastMember castMember = new CastMember();
+        castMember.setActorName(castMemberDTO.getActorName());
+        castMember.setCharacterName(castMemberDTO.getCharacterName());
+        // don't set movie_id, let the system do that
 
+        long movieId = castMemberDTO.getMovieId();
 
+        movieService.addCastMemberToMovie(movieId, castMember);
+    }
 }

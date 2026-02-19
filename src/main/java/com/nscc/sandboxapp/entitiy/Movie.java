@@ -20,14 +20,16 @@ public class Movie {
     @Column(nullable = false, length = 750) // database validation
     private String synopsis;
 
-    @Column(nullable = false)
-    private int releaseYear;
-
-    @Column(nullable = false)
-    private int duration;
-
     // one-to-many relationship to Cast Member
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CastMember> castMembers = new ArrayList<>();
 
+    //
+    // Helper methods
+    //
+
+    public void addCastMember(CastMember castMember) {
+        castMembers.add(castMember);
+        castMember.setMovie(this); // set the parent Movie entity for this new cast member
+    }
 }
